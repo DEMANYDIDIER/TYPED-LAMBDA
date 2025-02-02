@@ -1,0 +1,260 @@
+TypedLambda 1.1 2025-02-01
+
+---- JavaSE-17 signature
+864237698
+537548559
+380894366
+
+---- Types
+(o -> o)  ==  f
+(o -> o -> o)  ==  b
+((o -> o) -> o -> o)  ==  n
+
+n -> n
+true
+
+---- Sub-Types
+o -> o -> o              o -> o -> o              yes  yes  yes
+o -> o -> o              (o -> o) -> o            no   no   no 
+o -> o                   o -> o -> o              no   no   yes
+o -> o -> o              (o -> o) -> o -> o       no   no   yes
+o -> o                   (o -> o) -> o -> o       no   no   yes
+
+---- Term convertions
+λa.a  ->  λ 1  ->  λa.a
+λab.a  ->  λ λ 2  ->  λab.a
+λab.b  ->  λ λ 1  ->  λab.b
+λab.ab  ->  λ λ 2 1  ->  λab.ab
+λab.a(ab)  ->  λ λ 2 (2 1)  ->  λab.a(ab)
+λab.a(a(ab))  ->  λ λ 2 (2 (2 1))  ->  λab.a(a(ab))
+λab.ba  ->  λ λ 1 2  ->  λab.ba
+λabc.abc  ->  λ λ λ 3 2 1  ->  λabc.abc
+λabc.b(abc)  ->  λ λ λ 2 (3 2 1)  ->  λabc.b(abc)
+λabc.cab  ->  λ λ λ 1 3 2  ->  λabc.cab
+λabc.ab  ->  λ λ λ 3 2  ->  λabc.ab
+λabc.ac  ->  λ λ λ 3 1  ->  λabc.ac
+λabcd.ac(bcd)  ->  λ λ λ λ 4 2 (3 2 1)  ->  λabcd.ac(bcd)
+λabcd.a(bc)d  ->  λ λ λ λ 4 (3 2) 1  ->  λabcd.a(bc)d
+λ 1  ->  λ 1
+λ λ 2  ->  λ λ 2
+λ λ 1  ->  λ λ 1
+λ λ 2 1  ->  λ λ 2 1
+λ λ 2 (2 1)  ->  λ λ 2 (2 1)
+λ λ 2 (2 (2 1))  ->  λ λ 2 (2 (2 1))
+λ λ 1 2  ->  λ λ 1 2
+λ λ λ 3 2 1  ->  λ λ λ 3 2 1
+λ λ λ 2 (3 2 1)  ->  λ λ λ 2 (3 2 1)
+λ λ λ 1 3 2  ->  λ λ λ 1 3 2
+λ λ λ 3 2  ->  λ λ λ 3 2
+λ λ λ 3 1  ->  λ λ λ 3 1
+λ λ λ λ 4 2 (3 2 1)  ->  λ λ λ λ 4 2 (3 2 1)
+λ λ λ λ 4 (3 2) 1  ->  λ λ λ λ 4 (3 2) 1
+(λ 1) λ 1  ->  (λ 1) λ 1
+λ 1 λ 1  ->  λ 1 λ 1
+λ (1 λ 1)  ->  λ 1 λ 1
+
+---- Type assignment
+UntypedTermException
+λa.a : [o] -> [o]
+λab.a : [o] -> [f]
+λab.b : [o] -> [f]
+λab.ab : [f] -> [f]
+λab.a(ab) : [f] -> [f]
+λab.a(a(ab)) : [f] -> [f]
+λab.ba : [o] -> [f -> o]
+λabc.abc : [b] -> [b]
+λabc.b(abc) : [n] -> [n]
+λabc.cab : [o] -> [o -> b -> o]
+λabc.ab : [f] -> [b]
+λabc.ac : [f] -> [b]
+λabcd.ac(bcd) : [b] -> [b -> b]
+λabcd.a(bc)d : [b] -> [f -> b]
+λabc.abc : [b] -> [b]
+λabcd.abcd : [o -> b] -> [o -> b]
+λ 1 : [o] -> [o]
+λ λ 2 : [o] -> [f]
+λ λ λ 3 : [o] -> [b]
+λ λ λ λ 4 : [o] -> [o -> b]
+λ λ λ λ λ 5 : [o] -> [o -> o -> b]
+λ λ λ λ λ λ 6 : [o] -> [o -> o -> o -> b]
+λ λ 2 : [o] -> [f]
+λ λ λ λ 4 3 : [f] -> [o -> b]
+λ λ λ λ λ λ 6 (5 4) : [f] -> [f -> o -> o -> b]
+λ λ λ λ λ λ λ λ 8 (7 (6 5)) : [f] -> [f -> f -> o -> o -> o -> b]
+f
+f -> o
+b
+o -> f -> o
+n
+o -> b
+b -> o
+o -> o -> b
+o -> b -> o
+f -> b
+f -> o -> b
+o -> o -> o -> b
+o -> o -> b -> o
+b -> b
+f -> o -> o -> b
+o -> o -> o -> o -> b
+n -> n
+b -> f -> b
+f -> o -> o -> o -> b
+o -> b -> o -> b
+f -> f -> o -> o -> b
+b -> b -> b
+f -> f -> o -> o -> o -> b
+f -> f -> f -> o -> o -> o -> b
+0 0 0 2 0 0 0 6 0 0 0 7 0 0 0 0 0 0 0 4 0 0 0 3 0 0 0 2 0 0 0 0 
+
+---- Reducing
+(λ λ 4 2 λ 1 3) λ 5 1
+ =β=> λ 3 λ 6 1 λ 1 λ 7 1
+λ 1 = λ 1
+λ λ 2 = λ λ 2
+λ λ 1 = λ λ 1
+λ λ 2 1 = λ λ 2 1
+λ λ 2 (2 1) = λ λ 2 (2 1)
+λ λ 2 (2 (2 1)) = λ λ 2 (2 (2 1))
+λ λ 1 2 = λ λ 1 2
+λ λ λ 3 2 1 = λ λ λ 3 2 1
+λ λ λ 2 (3 2 1) = λ λ λ 2 (3 2 1)
+λ λ λ 1 3 2 = λ λ λ 1 3 2
+λ λ λ 3 2 = λ λ λ 3 2
+λ λ λ 3 1 = λ λ λ 3 1
+λ λ λ λ 4 2 (3 2 1) = λ λ λ λ 4 2 (3 2 1)
+λ λ λ λ 4 (3 2) 1 = λ λ λ λ 4 (3 2) 1
+(λ λ 4 2 λ 1 3) λ 5 1 = (λ λ 4 2 λ 1 3) λ 5 1
+
+(λ λ 2 (2 (2 (2 (2 (2 (2 (2 1)))))))) λ λ 2 (2 1)
+ =β=> decimal 256 binary 100000000 hexa 100 using 23 ms for 510 reductions, 772 substitutions.
+
+(λ λ 2 (2 (2 (2 (2 (2 (2 (2 (2 1))))))))) λ λ 2 (2 1)
+ =β=> decimal 512 binary 1000000000 hexa 200 using 54 ms for 1022 reductions, 1541 substitutions.
+
+(λ λ 2 (2 (2 (2 (2 (2 (2 (2 (2 (2 1)))))))))) λ λ 2 (2 1)
+ =β=> decimal 1024 binary 10000000000 hexa 400 using 85 ms for 2046 reductions, 3078 substitutions.
+
+(λ λ 2 (2 (2 (2 (2 (2 (2 (2 (2 (2 (2 1))))))))))) λ λ 2 (2 1)
+ =β=> decimal 2048 binary 100000000000 hexa 800 using 305 ms for 4094 reductions, 6151 substitutions.
+
+(λ λ 2 (2 (2 (2 (2 (2 (2 (2 (2 (2 (2 (2 1)))))))))))) λ λ 2 (2 1)
+ =β=> decimal 4096 binary 1000000000000 hexa 1000 using 1045 ms for 8190 reductions, 12296 substitutions.
+Terms(int) 54178
+
+---- Arithmetic
++1 = λabc.b(abc) == λ λ λ 2 (3 2 1) : n -> n
++2 = λabc.b(b(abc)) == λ λ λ 2 (2 (3 2 1)) : n -> n
++3 = λabc.b(b(b(abc))) == λ λ λ 2 (2 (2 (3 2 1))) : n -> n
+*1 = λabc.abc == λ λ λ 3 2 1 : b -> b
+*2 = λabc.ab(abc) == λ λ λ 3 2 (3 2 1) : b -> b
+*3 = λabc.ab(ab(abc)) == λ λ λ 3 2 (3 2 (3 2 1)) : b -> b
+
+---- Couples
+<I,I> =β= λab.ab : [f] -> [f]
+<K,K> =β= λabcd.ab : [f] -> [o -> b]
+<F,F> =β= λabcd.ad : [f] -> [o -> b]
+<K,1> =β= λabcd.a(bc) : [f] -> [f -> b]
+<F,1> =β= λabcd.ad : [f] -> [o -> b]
+<1,K> =β= λabcd.a(bd) : [f] -> [f -> b]
+<1,F> =β= λabcd.a(cd) : [f] -> [o -> n]
+<1,1> =β= λabcd.a(bcd) : [f] -> [b -> b]
+<2,2> =β= λabcd.a(b(bc)(b(bc)d)) : [f] -> [b -> b]
+<^,^> =β= λabcd.a(d(cb)) : [f] -> [o -> f -> f -> o]
+<+,+> =β= λabcdefgh.a(bd(cde)g(fgh)) : [f] -> [o -> o -> b -> b -> o -> o -> b -> b]
+<*,*> =β= λabcdefgh.a(b(cd)e(fg)h) : [f] -> [o -> o -> b -> f -> o -> o -> f -> b]
+
+---- Type assignment reasoning
+λ λ λ λ [4, [[3, 2], 1]]@fa03bf3d
+Type assignment of λabcd.a(bcd)
+abstractions naming
+N0 = A0 = λ λ λ λ [4, [[3, 2], 1]]
+N1 = A1 = λ λ λ [4, [[3, 2], 1]]
+N2 = A2 = λ λ [4, [[3, 2], 1]]
+N3 = A3 = λ [4, [[3, 2], 1]]
+leaves naming
+L0 -> A0
+L1 -> A1
+L2 -> A2
+L3 -> A3
+applications naming
+N4 = P0 = [L1 L2] = [3, 2]
+N5 = P1 = [P0 L3] = [[3, 2], 1]
+N6 = P2 = [L0 P1] = [4, [[3, 2], 1]]
+application rules step 1
+L2 : o
+P0 : o
+=> (L2 -> P0) : o -> o
+L3 : o
+P1 : o
+=> (L3 -> P1) : o -> o
+P1 : o
+P2 : o
+=> (P1 -> P2) : o -> o
+N1 : o -> o
+N4 : o -> o
+N0 : o -> o
+application rules step 2
+L2 : o
+P0 : o -> o
+=> (L2 -> P0) : o -> o -> o
+L3 : o
+P1 : o
+=> (L3 -> P1) : o -> o
+P1 : o
+P2 : o
+=> (P1 -> P2) : o -> o
+N1 : o -> o -> o
+application rules step 3
+L2 : o
+P0 : o -> o
+=> (L2 -> P0) : o -> o -> o
+L3 : o
+P1 : o
+=> (L3 -> P1) : o -> o
+P1 : o
+P2 : o
+=> (P1 -> P2) : o -> o
+abstraction rules
+B : o
+(N3 -> B) : [o] -> [o]
+(N2 -> B) : [o] -> [o -> o]
+(N1 -> B) : [o -> o -> o] -> [o -> o -> o]
+(N0 -> B) : [o -> o] -> [(o -> o -> o) -> o -> o -> o]
+
+---- Lists
+λ λ 1 : [o] -> [f]
+λ λ 2 1 : [f] -> [f]
+λ λ 2 (2 1) : [f] -> [f]
+λ λ 2 (2 (2 1)) : [f] -> [f]
+λ λ λ 3 1 : [f] -> [b]
+λ λ λ 3 1 : [f] -> [b]
+λ λ λ 3 1 : [f] -> [b]
+λ λ λ 3 2 : [f] -> [b]
+λ λ λ λ 4 (4 3) : [f] -> [o -> b]
+λ λ λ λ λ 5 (5 (5 4)) : [f] -> [o -> o -> b]
+λ λ λ 3 (2 1) : [f] -> [n]
+λ λ λ 3 (3 (2 1)) : [f] -> [n]
+λ λ λ 3 (3 (3 (2 1))) : [f] -> [n]
+
+---- Normalization step by step
+goingUp λ λ [<<2>, <λ λ 2>>, [[2, λ λ 2], [[2, λ λ 2], 1]]]
+redex   λ λ <<λ [3, λ 2]>, <[[2, λ λ 2], [[2, λ λ 2], 1]]>>
+"AA0A1A"
+goingUp λ λ <<2>, <λ [[3, λ λ 2], [[3, λ λ 2], 2]]>>
+goingUp λ λ λ [3, [<<3>, <λ λ 2>>, [[3, λ λ 2], 2]]]
+redex   λ λ λ [3, <<λ [4, λ 2]>, <[[3, λ λ 2], 2]>>]
+"AAA10A1A"
+goingUp λ λ λ [3, <<3>, <λ [[4, λ λ 2], 3]>>]
+goingUp λ λ λ <<3>, <λ [4, [[4, λ λ 2], 3]]>>
+goingUp λ λ λ λ [4, [4, [<<4>, <λ λ 2>>, 3]]]
+redex   λ λ λ λ [4, [4, <<λ [5, λ 2]>, <3>>]]
+"AAAA110A1A"
+goingUp λ λ λ λ [4, [4, <<4>, <λ 4>>]]
+goingUp λ λ λ λ [4, <<4>, <λ [5, 4]>>]
+goingUp λ λ λ λ <<4>, <λ [5, [5, 4]]>>
+λ λ λ λ λ 5 (5 (5 4)) : [f] -> [o -> o -> b]
+
+---- TypedLambda demonstration page end
+
+αβγδεζηθικλμνξοπρςστυφχψω
